@@ -6,6 +6,9 @@ const app = express();
 //import du package mongoose
 const mongoose = require('mongoose');
 
+//import du routeur
+const userRoutes = require ('./routes/user');
+
 
 //connection au serveur mongoDB 
 mongoose.connect('mongodb+srv://Fat2:Gassfat1912@cluster0.hggih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -34,5 +37,6 @@ app.use((req, res, next) => {
   console.log('Réponse envoyée avec succès !');
 });
 
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
