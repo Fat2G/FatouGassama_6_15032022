@@ -17,6 +17,14 @@ mongoose.connect('mongodb+srv://Fat2:Gassfat1912@cluster0.hggih.mongodb.net/myFi
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+//headers permettant de connecter différents serveurs
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
+
 //création de middleware pour s'assurer que le serveur fonctionne correctement
 app.use((req, res, next) => {
   console.log('Requête reçue !');
