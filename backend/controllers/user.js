@@ -8,23 +8,22 @@ const User= require('../models/user');
 
 //fonction pour l'enregistrement des utilisateurs
 exports.signup = (req, res, next) => {
-  //explication 3.3
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
         email: req.body.email,
         password: hash
       });
+      // Et si le mail est déjà utilisé ?
       user.save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !'}))
-        .catch(err => res.status(400).json({ error }))
+        .catch(error => res.status(400).json({ error }))
     })
-    .catch(err => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({ error }));
 };
 
-//fonction pour la connection des utilisateurs existants
+//fonction pour la connexion des utilisateurs existants
 exports.login = (req, res, next) => {
-  //explication 3.4
   User.findOne({ email: req.body.email})
     .then(user => {
       if (!user){
@@ -44,7 +43,7 @@ exports.login = (req, res, next) => {
             )
           })
         })
-        .catch(err => res.status(500).json({ error}));
+        .catch(error => res.status(500).json({ error}));
     })
-    .catch(err => res.status(500).json({ error}));
+    .catch(error => res.status(500).json({ error}));
 };
