@@ -25,3 +25,15 @@ exports.getAllThings = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
   next();
 };
+
+exports.updateOneThing = (req, res, next) => {
+  Thing.updateOne({ _id: req.params.id})
+    .then(() => res.status(400).json({ message: 'Sauce modifiée !'})) 
+    .catch(error => res.status(400).json({ error}));
+};
+
+exports.deleteOneThing = (req, res, next) => {
+  Thing.deleteOne({ _id: req.params.id})
+    .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
+    .catch(error => res.status(400).json({ error}));
+};
