@@ -1,8 +1,8 @@
-const thing = require('../models/sauces');
+const Thing = require('../models/sauces');
 const fs = require('fs');
 
 exports.createThing = (req, res, next) => {
-  const thingObject = JSON.parse(req.body.thing);
+  const thingObject = JSON.parse(req.body.sauce);
   delete thingObject._id;
   const thing = new Thing({    
     ...thingObject,
@@ -11,7 +11,6 @@ exports.createThing = (req, res, next) => {
   thing.save()
     .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
     .catch(error => res.status(400).json({ error }));
-  next();
 };
 
 exports.getOneThing = (req, res, next) => {
@@ -23,14 +22,13 @@ exports.getOneThing = (req, res, next) => {
 exports.getAllThings = (req, res, next) => {
   Thing.find()
     .then(things => res.status(200).json(things))
-    .catch(error => res.status(400).json({ error }));
-  next();
+    .catch(error => res.status(400).json({ error }))
 };
 
 exports.modifyThing = (req, res, next) => {
   const thingObject = req.file ?
     {
-      ...JSON.parse(req.body.thing),
+      ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
   Thing.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id })
@@ -49,5 +47,4 @@ exports.deleteThing = (req, res, next) => {
       });
     })
     .catch(error => res.status(500).json({ error }));
-  
 };
