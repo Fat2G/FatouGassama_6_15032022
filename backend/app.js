@@ -1,11 +1,13 @@
-const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const helmet = require('helmet');
 
 const userRoutes = require('./routes/user');
 const saucesRoutes= require('./routes/sauces');
+
+const express = require('express');
 
 //connexion au serveur mongoDB 
 mongoose.connect('mongodb+srv://Fat2:Gassfat1912@cluster0.hggih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -23,6 +25,8 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use(helmet());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
