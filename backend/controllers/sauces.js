@@ -1,6 +1,7 @@
 const Thing = require('../models/sauces');
 const fs = require('fs');
 
+// création de la sauce
 exports.createThing = (req, res, next) => {
   const thingObject = JSON.parse(req.body.sauce);
   delete thingObject._id;
@@ -13,18 +14,21 @@ exports.createThing = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+// récupération d'une sauce
 exports.getOneThing = (req, res, next) => {
   Thing.findOne({ _id: req.params.id })
     .then(thing => res.status(200).json(thing))
     .catch(error => res.status(404).json({ error }));
 };
 
+// récupération de toutes les sauces
 exports.getAllThings = (req, res, next) => {
   Thing.find()
     .then(things => res.status(200).json(things))
     .catch(error => res.status(400).json({ error }))
 };
 
+// modification de la sauce
 exports.modifyThing = (req, res, next) => {
   const thingObject = req.file ?
     {
@@ -36,6 +40,7 @@ exports.modifyThing = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+// suppression de la sauce
 exports.deleteThing = (req, res, next) => {
   Thing.findOne({ _id: req.params.id })
     .then(thing => {
@@ -47,4 +52,48 @@ exports.deleteThing = (req, res, next) => {
       });
     })
     .catch(error => res.status(500).json({ error }));
+};
+
+// définition du comportement du statut "Like" 
+exports.likeOrDislike = (req, res, next) => {
+  const like = req.body.like;
+  const userId = req.body.userId;
+  const sauceId = req.params.id;
+
+  Thing.findOne({_id: sauceId})
+    .then((sauce) => {
+      // cas où l'utilisateur clique sur le bouton "like"
+      if(!sauce.usersLiked.includes(userId) && like === 1){
+        // la sauce est mise à jour et les "likes" sont incrémentés de +1.
+        // l' ID de l'utilisateur est implémenté dans le tableau usersLiked afin qu'il ne puisse donner son avis qu'une seule fois.
+        Thing.updateOne({ _id: sauceId }, {$inc: { likes: +1 }, $push: { usersLiked: userId }})
+          .then(() => res.status(200).json({ message: "Like ajouté !" }))
+          .catch(error => res.status(400).json({error}));
+      } 
+
+      // cas où l'utilisateur ayant cliqué sur "like" annule son choix.
+      // l' ID de l'utilisateur est retiré du tableau usersLiked afin qu'il puisse faire un autre choix. 
+      else if(sauce.usersLiked.includes(userId) && like === 0){
+        Thing.updateOne({ _id: sauceId }, { $inc: { likes: -1 }, $pull: { usersLiked: userId }})
+          .then(() => res.status(200).json({ message: "Like supprimé !" }))
+          .catch(error => res.status(400).json({ error }));
+      } 
+
+      // cas où l'utilisateur clique sur le bouton "dislike"
+      else if(!sauce.usersDisliked.includes(userId) && like === -1){ 
+        Thing.updateOne({ _id: sauceId }, { $inc: { dislikes: +1 }, $push: { usersDisliked: userId }})
+          .then(() => res.status(200).json({message: "Dislike ajouté !"}))
+          .catch(error => res.status(400).json({ error }));
+      }
+
+      // cas où l'utilisateur ayant cliqué sur "dislike" annule son choix
+      else if(sauce.usersDisliked.includes(userId) && like === 0){ 
+        Thing.updateOne({ _id: sauceId }, {$inc: { dislikes: -1 }, $pull: { usersDisliked: userId }})
+          .then(() => res.status(200).json({ message: "Dislike supprimé !" }))
+          .catch(error => res.status(400).json({ error }));
+      } else {
+        return res.status(401).json({ message: "Opération non effectuée !" });
+      }
+    })
+    .catch(error => res.status(400).json({ error }));
 };
