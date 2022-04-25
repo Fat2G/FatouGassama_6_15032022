@@ -10,4 +10,4 @@ const maxAttemps = rateLimit({
     "Votre compte étant bloqué suite à 3 tentatives infructueuses, veuillez réessayer dans 2 minutes.",
 })
 
-module.exports = maxAttempsConnection;
+module.exports = maxAttemps;
