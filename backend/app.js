@@ -9,8 +9,15 @@ const helmet = require('helmet');
 const userRoutes = require('./routes/user');
 const saucesRoutes= require('./routes/sauces');
 
+// utilisation des variables d'environnement pour cacher les données sensibles comme les identifiants mongoDB
+require('dotenv').config();
+const dbUserName = process.env.DB_USERNAME;
+const dbPassword = process.env.DB_PASSWORD;
+const dbCluster = process.env.DB_CLUSTER;
+const dbName = process.env.DB_NAME;
+
 //connexion au serveur mongoDB 
-mongoose.connect('mongodb+srv://Fat2:Gassfat1912@cluster0.hggih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect(`mongodb+srv://${dbUserName}:${dbPassword}@${dbCluster}.mongodb.net/${dbName}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
