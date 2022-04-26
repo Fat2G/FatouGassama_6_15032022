@@ -8,10 +8,15 @@ const cryptoJs = require('crypto-js');
 //import du modèle users
 const User= require('../models/user');
 
+// utilisation des variables d'environnement pour cacher les données sensibles
+require('dotenv').config();
+const cryptoKey = process.env.CRYPTOJS_KEY_EMAIL;
+const jwtKey = process.env.JWT_KEY;
+
 //fonction pour l'enregistrement des utilisateurs
 exports.signup = (req, res, next) => {
   // chiffrage de l'email 
-  const emailCryptoJs = cryptoJs.SHA256(req.body.email, "SECRET_KEY").toString();
+  const emailCryptoJs = cryptoJs.SHA256(req.body.email, `${cryptoKey}` ).toString();
   console.log("emailCryptoJs");
   console.log(emailCryptoJs);
 
@@ -32,7 +37,7 @@ exports.signup = (req, res, next) => {
 
 //fonction pour la connexion des utilisateurs existants
 exports.login = (req, res, next) => {
-  const emailCryptoJs = cryptoJs.SHA256(req.body.email, "SECRET_KEY").toString();
+  const emailCryptoJs = cryptoJs.SHA256(req.body.email, `${cryptoKey}` ).toString(); 
   User.findOne({ email: emailCryptoJs})
     .then(user => {
       if (!user){
@@ -44,11 +49,12 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ message: 'Mot de passe incorrect !'});
           }
           res.status(200).json({
+            //encodage du userId pour lier les données à l'utilisateur
             userId: user._id,
             token: jwt.sign(
               { userId: user._id},
-              'RANDOM_TOKEN_SECRET',
-              {expiresIn: '24h'}
+              `${jwtKey}`,
+              {expiresIn: '12h'}
             )
           })
         })
