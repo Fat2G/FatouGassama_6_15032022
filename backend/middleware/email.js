@@ -1,10 +1,10 @@
 const validator = require('validator');
 
+//export du middleware de verification de l'adresse email
 module.exports = (req, res, next) => {
-  const{email} = req.body;
-  if (validator.isEmail(email)) {
-    next();
+  if (!validator.isEmail(req.body.email)) {
+    return res.status(400).json({ message: `L'adresse mail ${req.body.email} n'est pas valide !` });
   } else {
-    return res.status(400).json({ error: `L'adresse mail ${email} n'est pas valide !` })
+    next();
   }
 };
