@@ -5,7 +5,7 @@ const schemaValidator = new passwordValidator();
 // paramètres requis lors de la validation
 schemaValidator
 .is().min(5)
-.is().max(15)
+.is().max(20)
 .has().uppercase(1)
 .has().lowercase(1)
 .has().digits(2)
