@@ -17,15 +17,15 @@
 
 #### 2. Installation du dossier Frontend ####
 
-- Ouvrez un terminal à partir du sous-répertoire "frontend"
- et suivez les instructions données dans le document README.mb de ce dossier.
+- Ouvrez un terminal à partir du sous-répertoire **frontend**
+ et suivez les instructions données dans le document `README.mb` de ce dossier.
 
 
 #### 3. Installation du dossier Backend ####
 
-- Ouvrez un terminal à partir du sous-répertoire "backend" et exécutez la commande "npm install" afin d'installer toutes les dépendances.
+- Ouvrez un terminal à partir du sous-répertoire **backend** et exécutez la commande `npm install` afin d'installer toutes les dépendances.
 
-- Une fois les dépendances installées, veuillez exécuter la commande "nodemon server" afin de lancer le serveur.
+- Une fois les dépendances installées, veuillez exécuter la commande `nodemon server` afin de lancer le serveur.
 
 
 #### 4. Création et configuration d'une base de données noSQL MongoDB ####
