@@ -32,7 +32,7 @@
  
 Afin que l'application puisse fonctionner, il vous faudra créer une base de données [MongoDB](https://www.mongodb.com/).
 
-Pour ce faire, veuillez opérer de la façcon suivante:
+- Pour ce faire, veuillez opérer de la façcon suivante:
      - Créez un compte
      - Créez votre base de données en veillant à ce que l'utilisateur puisse exécuter l'application sur sa propre machine en configutant les paramètres
      <pre><code>Network Access -> Allow access from anywhere</code></pre>
