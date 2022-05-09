@@ -1,3 +1,4 @@
+// import du package express-rate-limit
 const rateLimit = require('express-rate-limit');
 
 // configuration du nombre d'essai de connexion

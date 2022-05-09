@@ -1,11 +1,16 @@
+// import du package express
 const express = require('express');
-
+// création de l'application express
 const app = express();
+// import du package body-parser
 const bodyParser = require('body-parser');
+// import du package mongoose
 const mongoose = require('mongoose');
+// import du package path qui donne accès au chemin de fichiers
 const path = require('path');
+// import du package helmet
 const helmet = require('helmet');
-
+// import des routers utilisateurs et sauces
 const userRoutes = require('./routes/user');
 const saucesRoutes= require('./routes/sauces');
 
@@ -31,6 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// middlewares
 app.use(bodyParser.json());
 
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));

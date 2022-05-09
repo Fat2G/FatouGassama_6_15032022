@@ -1,14 +1,20 @@
+// Import du modèle sauce
 const Thing = require('../models/sauces');
+// Import du package file system 'fs'
 const fs = require('fs');
 
 // création de la sauce
 exports.createThing = (req, res, next) => {
+  // parse de la chaine de caractère en objet
   const thingObject = JSON.parse(req.body.sauce);
+  // suppression de l'id utilisateur 
   delete thingObject._id;
+  // création d'une nouvelle sauce
   const thing = new Thing({    
     ...thingObject,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
+  // enregistrement de la sauce dans la base de données
   thing.save()
     .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
     .catch(error => res.status(400).json({ error }));
@@ -30,6 +36,7 @@ exports.getAllThings = (req, res, next) => {
 
 // modification de la sauce
 exports.modifyThing = (req, res, next) => {
+  
   const thingObject = req.file ?
     {
       ...JSON.parse(req.body.sauce),
@@ -44,8 +51,11 @@ exports.modifyThing = (req, res, next) => {
 exports.deleteThing = (req, res, next) => {
   Thing.findOne({ _id: req.params.id })
     .then(thing => {
+
       const filename = thing.imageUrl.split('/images/')[1];
+      // utilisation de la méthode unlink du package 'fs' pour supprimer le fichier
       fs.unlink(`images/${filename}`, ()=> {
+        // supression de la sauce dans la base de données
         Thing.deleteOne({ _id: req.params.id})
           .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
           .catch(error => res.status(400).json({ error }));

@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
     .then((hash) => {
       // Création du nouvel utilisateur
       const user = new User({
-        email: /*req.body.email*/ emailCryptoJs,
+        email: emailCryptoJs,
         password: hash,
       });
       // Enregistrement de l'utilisateur dans la base de données

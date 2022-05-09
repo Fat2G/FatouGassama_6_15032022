@@ -1,6 +1,8 @@
+// import du package mongoose
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+// schéma de données 
 const thingSchema = mongoose.Schema({
   userId: { type: String, required: true},
   name: { type: String, required: true},
@@ -14,5 +16,6 @@ const thingSchema = mongoose.Schema({
   usersLiked: [{ type: Schema.Types.ObjectId, ref: 'User'}], 
   usersDisliked: [{ type: Schema.Types.ObjectId, ref: 'User'}]
 });
-
+ 
+// export du modèle en modèle utilisable grâce à la méthode 'model'
 module.exports = mongoose.model('Thing', thingSchema);
