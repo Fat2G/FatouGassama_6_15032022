@@ -2,6 +2,10 @@
 
 ### INSTALLATION ###
 
+Pour utiliser l'application, il faudra installer sur votre machine:
+- NodeJS  14.18.0 ou +
+- Angular CLI 13.3.5 ou +
+
 #### 1. Copie des dossiers Frontend et Backend ####
 
 - Créer un dossier vide qui contiendra le projet, regroupé dans deux dossiers (un dossier frontend et un dossier backend).
@@ -18,7 +22,8 @@
 #### 2. Installation du dossier Frontend ####
 
 - Ouvrez un terminal à partir du sous-répertoire **frontend**
- et suivez les instructions données dans le document `README.mb` de ce dossier.
+- Exécutez la commande <pre><code>npm install</code></pre>
+- Lancez l'application en exécutant la commande <pre><code>ng serve</code></pre>
 
 
 #### 3. Installation du dossier Backend ####
