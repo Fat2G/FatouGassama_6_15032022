@@ -22,8 +22,8 @@ Pour utiliser l'application, il faudra installer sur votre machine:
 #### 2. Installation du dossier Frontend ####
 
 - Ouvrez un terminal à partir du sous-répertoire **frontend**
-- Exécutez la commande <pre><code>npm install</code></pre>
-- Lancez l'application en exécutant la commande <pre><code>ng serve</code></pre>
+- Exécutez la commande `npm install`
+- Lancez l'application en exécutant la commande `ng serve`
 
 
 #### 3. Installation du dossier Backend ####
