@@ -36,7 +36,25 @@ exports.getAllThings = (req, res, next) => {
 
 // modification de la sauce
 exports.modifyThing = (req, res, next) => {
-  
+  // si l'image est modifiée, celle d'avant sera supprimée
+  if (req.file) {
+    Thing.findOne({ _id: req.params.id })
+      .then((sauce) => {
+        // récupération du nom de la photo à supprimer dans la base de données
+        const filename = sauce.imageUrl.split("/images")[1];
+        // suppression de l'image dans le dossier 'images' du serveur
+        fs.unlink(`images/${filename}`,
+        (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+      })
+      .catch(function (error) {
+        response.status(400).json({ error });
+      });
+  }
+  //mise a jour de la sauce
   const thingObject = req.file ?
     {
       ...JSON.parse(req.body.sauce),
